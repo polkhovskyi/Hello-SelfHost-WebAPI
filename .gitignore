@@ -2,3 +2,4 @@
 /*.suo
 /Hello-SelfHost-WebAPI/obj
 /Hello-SelfHost-WebAPI/bin
+*.user
