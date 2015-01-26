@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Web.Security;
 using Hello_SelfHost_WebAPI.Start;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Hello_SelfHost_WebAPI
@@ -26,6 +27,7 @@ namespace Hello_SelfHost_WebAPI
         [Test]
         public void AuthenticationTest()
         {
+            var expectedJson = JsonConvert.SerializeObject(new[] { "value1", "value2" });
             Membership.DeleteUser("admin");
             _runner.Start();
             MembershipCreateStatus createStatus;
@@ -38,7 +40,7 @@ namespace Hello_SelfHost_WebAPI
             result = GetValues("admin", "Admin2015!");
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             var readStream = new StreamReader(result.GetResponseStream(), Encoding.UTF8);
-            Assert.AreEqual("[\"value1\",\"value2\"]", readStream.ReadToEnd());
+            Assert.AreEqual(expectedJson, readStream.ReadToEnd());
             _runner.Stop();
         }
 
