@@ -31,14 +31,14 @@ namespace Hello_SelfHost_WebAPI
             MembershipCreateStatus createStatus;
             Membership.CreateUser("admin", "Admin2015!", "admin@admin.com", "Question?", "Answer", true,
                 out createStatus);
-            Assert.AreEqual(createStatus, MembershipCreateStatus.Success);
+            Assert.AreEqual(MembershipCreateStatus.Success, createStatus);
 
             var result = GetValues("admin", "incorrect");
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.Unauthorized);
+            Assert.AreEqual(HttpStatusCode.Unauthorized, result.StatusCode);
             result = GetValues("admin", "Admin2015!");
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             var readStream = new StreamReader(result.GetResponseStream(), Encoding.UTF8);
-            Assert.AreEqual(readStream.ReadToEnd(), "[\"value1\",\"value2\"]");
+            Assert.AreEqual("[\"value1\",\"value2\"]", readStream.ReadToEnd());
             _runner.Stop();
         }
 
